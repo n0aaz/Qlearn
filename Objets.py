@@ -33,3 +33,13 @@ class Recompense(Bloc):
       self.x=self.x+dx
       bonjour
         ###
+  class joueur(Bloc):
+    
+    def __int__ (joueur):
+        joueur.nom = 'joueur'
+        joueur.position = [joueur.x , joueur.y , joueur.z]
+        
+        
+    
+    def deplacement (joueur.position):
+ ###tkinter : module graphique (à regarder)
