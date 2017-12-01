@@ -31,4 +31,5 @@ class Recompense(Bloc):
         blocencours.passage=True
     else:
       self.x=self.x+dx
+      bonjour
         ###
