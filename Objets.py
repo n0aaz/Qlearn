@@ -5,6 +5,7 @@ class Bloc:
     self.y=0
     self.taille=[1,1]
     self.prop='blanc'
+    self.bonus=-0.1
   
 class Obstacle(Bloc):
   def __init__(self):
@@ -18,28 +19,29 @@ class Recompense(Bloc):
     self.couleur='bleu'
     self.bonus=1
     self.prop='recompense'
-    self.passage=False
     
-    #Exemple pour johann 
-    ### def deplacement(dx,dy):
-    blocencours=matrice[bloc.x+dx,bloc]
-    if matrice[bloc.x+dx,bloc] !=0:
-      if blocencours.prop== 'obstacle' :
-        pass
-      elif blocencours.prop == 'recompense':
-        self.score+=blocencours.bonus
-        blocencours.passage=True
-    else:
-      self.x=self.x+dx
-      bonjour
-        ###
-  class joueur(Bloc):
     
-    def __int__ (joueur):
-        joueur.nom = 'joueur'
-        joueur.position = [joueur.x , joueur.y , joueur.z]
+class Joueur(Bloc):   #joueur est il considéré comme un bloc comme les autres ? superposition possible ?
+  def __init__(self):
+    Joueur.__init__(self)
+    self.couleur='vert'
+    self.score=0
+    
+  def deplacement (dx,dy):
+    if matrice[self.x+dx,self.y+dy].prop='obstacle':   #devrait on créer la map avec des obstacles tout autour pour ne pas avoir de problèmes de limites ?
+      return
+    self.x+=dx
+    self.y+=dy
+    self.score+=matrice[self.x,self.y].bonus  #est ce que  ça écrase le bloc sous le joueur ? bonus de la case de départ ou  d'arrivée ?
+    if matrice[self.x,self.y].prop='recompense':
+      Recompense.prop='blanc'  #ça change les propriétés de la classe ou juste de ce bloc ?
+      Recompense.bonus=-0.1
+      Recompense.couleur='blanc'
+      #autre proposition
+      matrice[self.x,self.y].prop='blanc'
+      matrice[self.x,self.y].bonus=-0.1
+      matrice[self.x,self.y].couleur='blanc'
+    
         
-        
     
-    def deplacement (joueur.position):
- ###tkinter : module graphique (à regarder)
+   ###tkinter : module graphique (à regarder)
