@@ -1,11 +1,14 @@
 class Bloc:
   def __init__(self):
-    self.couleur='blanc'
+    self.couleur="white"
     self.x=0
     self.y=0
     self.taille=[1,1]
     self.prop='blanc'
     self.bonus=-0.1
+    
+  def generer(canvas):
+    canvas.create_rectangle(self.x*large, self.y*haut, (self.x +1)*large, (self.y+1)*haut, fill=self.couleur, width=1)
   
 class Obstacle(Bloc):
   def __init__(self):
