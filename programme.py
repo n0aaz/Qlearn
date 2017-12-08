@@ -9,19 +9,19 @@ label.pack()
 
 
 large,haut=1000,1000
-taille=[large,haut]
+
 bloclarge,blochaut=10,10
-matrice=[bloclarge,blochaut]
-blocs=[]
+
+matrice=[[[] for i in range bloclarge]for j in range blochaut]
 
 canvas = Canvas(fenetre, width=large, height=haut, background='white')
 
-j=Joueur()
+joueur=Joueur()
 
 
 def generfond():
-  for i in range(matrice[0]):
-    for j in range(matrice[1]):
+  for i in range(bloclarge):
+    for j in range(blochaut):
       if i==1 or j==1 or i==bloclarge-1 or i==blochaut-1:
         a=Obstacle()
         a.x=i*(large/bloclarge)
@@ -33,6 +33,8 @@ def generfond():
         a.y=i*(haut/blochaut)
         a.genere(canvas)
         
+      matrice[i][j].append(a)
+       
 
       
 
