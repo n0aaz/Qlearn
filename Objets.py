@@ -31,19 +31,19 @@ class Joueur(Bloc):   #joueur est il considéré comme un bloc comme les autres 
     self.score=0
     
   def deplacement (dx,dy):
-    if matrice[self.x+dx,self.y+dy].prop='obstacle':   #devrait on créer la map avec des obstacles tout autour pour ne pas avoir de problèmes de limites ?
+    if matrice[self.x+dx][self.y+dy].prop='obstacle':   #devrait on créer la map avec des obstacles tout autour pour ne pas avoir de problèmes de limites ?
       return
     self.x+=dx
     self.y+=dy
-    self.score+=matrice[self.x,self.y].bonus  #est ce que  ça écrase le bloc sous le joueur ? bonus de la case de départ ou  d'arrivée ?
-    if matrice[self.x,self.y].prop='recompense':
+    self.score+=matrice[self.x][self.y].bonus  #est ce que  ça écrase le bloc sous le joueur ? bonus de la case de départ ou  d'arrivée ?
+    if matrice[self.x][self.y].prop='recompense':
       Recompense.prop='blanc'  #ça change les propriétés de la classe ou juste de ce bloc ?
       Recompense.bonus=-0.1
       Recompense.couleur='blanc'
       #autre proposition
-      matrice[self.x,self.y].prop='blanc'
-      matrice[self.x,self.y].bonus=-0.1
-      matrice[self.x,self.y].couleur='blanc'
+      matrice[self.x][self.y].prop='blanc'
+      matrice[self.x][self.y].bonus=-0.1
+      matrice[self.x][self.y].couleur='blanc'
     
         
     
