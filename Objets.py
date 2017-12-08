@@ -12,13 +12,13 @@ class Bloc:
   
 class Obstacle(Bloc):
   def __init__(self):
-    Bloc.__init__(self)
-    self.couleur='noir'
+    super().__init__()
+    self.couleur="black"
     self.prop= 'obstacle'
   
 class Recompense(Bloc):
   def __init__(self):
-    Bloc.__init__(self)
+    super().__init__()
     self.couleur='bleu'
     self.bonus=1
     self.prop='recompense'
@@ -26,7 +26,7 @@ class Recompense(Bloc):
     
 class Joueur(Bloc):   #joueur est il considéré comme un bloc comme les autres ? superposition possible ?
   def __init__(self):
-    Joueur.__init__(self)
+    super().__init__()
     self.couleur='vert'
     self.score=0
     
