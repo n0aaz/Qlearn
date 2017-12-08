@@ -12,7 +12,7 @@ large,haut=1000,1000
 
 bloclarge,blochaut=10,10
 
-matrice=[[[] for i in range bloclarge]for j in range blochaut]
+matrice=[[None for i in range bloclarge]for j in range blochaut]
 
 canvas = Canvas(fenetre, width=large, height=haut, background='white')
 
