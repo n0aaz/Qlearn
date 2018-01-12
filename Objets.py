@@ -3,15 +3,15 @@ from tkinter import *
 class Bloc:
   def __init__(self):
     self.couleur="white"
-    self.x=0
-    self.y=0
+    self.pos=(0,0)
     self.taille=[10,10]
     self.prop='blanc'
     self.bonus=-0.1
     
   def genere(self,canvas):
     #print(self.x,self.y,self.taille)
-    a,b,c,d=self.x, self.y, (self.x)+self.taille[0], (self.y)+self.taille[1]
+    a,b=self.pos
+    c,d=(self.pos[0])+self.taille[0], (self.pos[1])+self.taille[1]
     print(a,b,c,d)
     truc=canvas.create_rectangle(a,b,c,d, fill=self.couleur, width=3) 
     return truc

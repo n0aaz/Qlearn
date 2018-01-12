@@ -26,12 +26,12 @@ def generfond(canvas):
       if i==0 or j==0 or i==bloclarge-1 or j==blochaut-1: 
         a=Obstacle()
         a.taille=(large/bloclarge),(haut/blochaut)
-        a.x,a.y=i*a.taille[0],j*a.taille[0]
+        a.pos=i*a.taille[0],j*a.taille[0]
         a.genere(canvas)
       else:
         a=Bloc()
         a.taille=(large/bloclarge),(haut/blochaut)
-        a.x,a.y=i*a.taille[0],j*a.taille[0]
+        a.pos=i*a.taille[0],j*a.taille[0]
         a.genere(canvas)
         
       matrice[i][j].append(int(a.prop=='obstacle'))
