@@ -36,11 +36,14 @@ class Joueur(Bloc):
     self.couleur='green'
     self.score=0
     
-  def deplacement (matrice,dx,dy):
+  def deplacement (j,canvas,matrice,dx,dy):
     if matrice[self.x+dx][self.y+dy].prop=='obstacle':   
       return
-    self.x+=dx
-    self.y+=dy
+    
+    
+    self.x +=dx
+    self.y +=dy
+    canvas.coords(j,self.x,self.y,self.x+self.taille[0],self.y+self.taille[1])
     self.score+=matrice[self.x][self.y].bonus  
     if matrice[self.x][self.y].prop=='recompense':
       Recompense.prop='white'
