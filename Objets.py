@@ -1,19 +1,20 @@
 from tkinter import *
 
+
 class Bloc:
   def __init__(self):
     self.couleur="white"
-    self.pos=(0,0)
-    self.taille=[10,10]
+    self.pos=[0,0]
+    self.taille=[5,5]
     self.prop='blanc'
     self.bonus=-0.1
     
   def genere(self,canvas):
     #print(self.x,self.y,self.taille)
-    a,b=self.pos
-    c,d=(self.pos[0])+self.taille[0], (self.pos[1])+self.taille[1]
+    a,b=self.pos[0]*self.taille[0],self.pos[1]*self.taille[1]
+    c,d=(self.pos[0]+1)*self.taille[0], (self.pos[1]+1)*self.taille[1]
     print(a,b,c,d)
-    truc=canvas.create_rectangle(a,b,c,d, fill=self.couleur, width=3) 
+    truc=canvas.create_rectangle(a,b,c,d, fill=self.couleur, width=1) 
     return truc
     
 class Obstacle(Bloc):
@@ -36,20 +37,20 @@ class Joueur(Bloc):
     self.couleur='green'
     self.score=0
     
-  def deplacement (j,canvas,matrice,dx,dy):
-    if matrice[self.x+dx][self.y+dy].prop=='obstacle':   
+  def deplacement (self,canvas,matrice,dx,dy):
+    if matrice[self.pos[0]+dx][self.pos[1]+dy].prop=='obstacle':   
       return
     
     
-    self.x +=dx
-    self.y +=dy
-    canvas.coords(j,self.x,self.y,self.x+self.taille[0],self.y+self.taille[1])
-    self.score+=matrice[self.x][self.y].bonus  
-    if matrice[self.x][self.y].prop=='recompense':
+    self.pos[0] =self.pos[0]+dx
+    self.pos[1] =self.pos[1]+dy
+    canvas.coords(j,self.pos[0],self.pos[1],self.pos[0]+self.taille[0],self.pos[1]+self.taille[1])
+    self.score+=matrice[self.pos[0]][self.pos[1]].bonus  
+    if matrice[self.pos[0]][self.pos[1]].prop=='recompense':
       Recompense.prop='white'
       Recompense.bonus=-0.1
       Recompense.couleur='white'
-      matrice[self.x][self.y].prop='white'
-      matrice[self.x][self.y].bonus=-0.1
-      matrice[self.x][self.y].couleur='white'
+      matrice[self.pos[0]][self.pos[1]].prop='white'
+      matrice[self.pos[0]][self.pos[1]].bonus=-0.1
+      matrice[self.pos[0]][self.pos[1]].couleur='white'
     

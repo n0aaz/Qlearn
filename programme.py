@@ -26,21 +26,24 @@ def generfond(canvas):
       if i==0 or j==0 or i==bloclarge-1 or j==blochaut-1: 
         a=Obstacle()
         a.taille=(large/bloclarge),(haut/blochaut)
-        a.pos=i*a.taille[0],j*a.taille[0]
+        print('taille=',a.taille)
+        a.pos=[i,j]
         a.genere(canvas)
       else:
         a=Bloc()
         a.taille=(large/bloclarge),(haut/blochaut)
-        a.pos=i*a.taille[0],j*a.taille[0]
+        a.pos=[i,j]
         a.genere(canvas)
         
-      matrice[i][j].append(int(a.prop=='obstacle'))
+      matrice[i][j]=a
 
 generfond(canvas)
 canvas.pack()
 joueur=Joueur()
 joueur.taille=(large/bloclarge),(haut/blochaut)
+joueur.pos=(1,blochaut-2)
 j=joueur.genere(canvas)
+#joueur.deplacement(canvas,matrice,1,0)
 fenetre.mainloop()
 
 print(np.asarray(matrice))
