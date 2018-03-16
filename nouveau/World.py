@@ -2,28 +2,27 @@ from tkinter import *
 import random
 master = Tk()
 
-triangle_size = 0.1
-cell_score_min = -0.2
-cell_score_max = 0.2
 Width = 10
 (x, y) = (20, 20)
 actions = ["up", "down", "left", "right"]
 
 board = Canvas(master, width=x*Width, height=y*Width)
 player = (0, y-1)
-score = 1
+score = 10
 restart = False
-walk_reward = -0.05
+walk_reward = -.05
 poubelle=[]
 coffre={}
+objets={}
+obstaclage=.15
 
 listescores=[]
 
 #position des murs
-walls = [(random.randint(0,x-1),random.randint(0,y-1)) for murs in range((x//2)**2)]
+walls = [(random.randint(0,x-1),random.randint(0,y-1)) for murs in range(int(x*y*obstaclage))]
 
 #cases bonus/malus
-specials = [(4, 1, "red", -1),(x-1,0 , "yellow", 1) ,(random.randint(0,x-1), random.randint(0,y-1), "blue", -0.04),(random.randint(0,x-1), random.randint(0,y-1), "blue", -0.04)]
+specials = [(4, 1, "red", -1),(x-1,0 , "yellow", 1) ,(random.randint(0,x-1), random.randint(0,y-1), "blue", -0.4),(random.randint(0,x-1), random.randint(0,y-1), "blue",-0.4)]
 
 cell_scores = {}
 
@@ -31,15 +30,32 @@ def render_grid():
     global specials, walls, Width, x, y, player
     for i in range(x):
         for j in range(y):
-            board.create_rectangle(i*Width, j*Width, (i+1)*Width, (j+1)*Width, fill="white", width=1)
-            temp = {}
-            cell_scores[(i,j)] = temp
+            objets[i,j]= board.create_rectangle(i*Width, j*Width, (i+1)*Width, (j+1)*Width, fill="#fffffffff", width=1)
+            
     for (i, j, c, w) in specials:
         board.create_rectangle(i*Width, j*Width, (i+1)*Width, (j+1)*Width, fill=c, width=1)
     for (i, j) in walls:
         board.create_rectangle(i*Width, j*Width, (i+1)*Width, (j+1)*Width, fill="black", width=1)
 
-render_grid()
+def recup_coul(couleur):#transforme une "couleur" au format tkinter en triplet rouge vert bleu d'entiers
+	coul2=""
+	flag=False
+	for elem in couleur:
+		if elem=="#":
+			flag=True
+		elif flag:
+			coul2+= elem.upper()
+	r,g,b=int("0x"+coul2[:3],16),int("0x"+coul2[3:6],16),int("0x"+coul2[6:],16)
+	return r,g,b
+	
+def recomp_coul(r,g,b):
+	r2,g2,b2=hex(r)[2:],hex(g)[2:],hex(b)[2:]
+	return "#"+r2+g2+b2 #retransforme un triplet d'entiers rouge vert bleu au format couleur tkinter 
+			
+def edit_coul(x,y,mod): #modifie la couleur d'une case aux positions x,y
+	r,g,b= recup_coul(board.itemcget(objets[x, y], "fill"))
+	r,g,b= r,max(0,g-mod),b #on diminue la teneur en rouge , pour avoir une case de plus en violette
+	board.itemconfigure( objets[x, y] , fill=recomp_coul(r,g,b))
 
 
 def try_move(dx, dy):
@@ -52,7 +68,8 @@ def try_move(dx, dy):
     
     if (new_x >= 0) and (new_x < x) and (new_y >= 0) and (new_y < y) and not ((new_x, new_y) in walls):
         board.coords(me, new_x*Width+Width*2/10, new_y*Width+Width*2/10, new_x*Width+Width*8/10, new_y*Width+Width*8/10)
-        player = (new_x, new_y)
+        player = (new_x , new_y)
+        edit_coul(new_x , new_y , 10)
         
     for (i, j, c, w) in specials:
         if new_x == i and new_y == j:
@@ -60,35 +77,18 @@ def try_move(dx, dy):
             score += w
             if c== "yellow" or c=="red":
                 for bonus in coffre:
-                    score+=int(coffre[bonus])
+                    score+=10*int(coffre[bonus])
                 restart = True
                 print("score=",score)
                     
             elif c== "blue":
                 coffre[i,j]=True
+                walls.append((i,j))
             else:
                 poubelle.append((i,j,c,w))
                 walls.append(i,j)
                 specials.remove((i,j,c,w))
             return
-    #print "score: ", score
-
-
-def call_up(event):
-    try_move(0, -1)
-
-
-def call_down(event):
-    try_move(0, 1)
-
-
-def call_left(event):
-    try_move(-1, 0)
-
-
-def call_right(event):
-    try_move(1, 0)
-
 
 def restart_game():
     global player, score, me, restart,listescores,coffre
@@ -108,11 +108,7 @@ def restart_game():
 def has_restarted():
     return restart
 
-master.bind("<Up>", call_up)
-master.bind("<Down>", call_down)
-master.bind("<Right>", call_right)
-master.bind("<Left>", call_left)
-
+render_grid()
 me = board.create_rectangle(player[0]*Width+Width*2/10, player[1]*Width+Width*2/10,
                             player[0]*Width+Width*8/10, player[1]*Width+Width*8/10, fill="orange", width=1, tag="me")
 
