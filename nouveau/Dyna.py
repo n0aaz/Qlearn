@@ -4,8 +4,9 @@ import time
 import matplotlib.pyplot as plt
 from tkinter import Tk
 from World import listescores
+import random
 
-discount = 0.99
+discount = 0.7
 actions = World.actions
 states = []
 Q = {}
@@ -19,21 +20,19 @@ def init_mat():
 	for i in range(World.x):
 		for j in range(World.y):
 			states.append((i, j))
-
-
 	for state in states:
 		temp = {}
 		recompense = {}
 		for action in actions:
 			temp[action] = 0.1
-			recompense[action] = 0
+			recompense[action] = 0.0
 		Q[state] = temp
 		R[state] = recompense
 
 	for (i, j, c, w) in World.specials:
 		for action in actions:
 			Q[(i, j)][action] = w
-			R[(i,j)][recompense]
+			R[(i, j)][action] = 0.0
 
 def signal_arret(liste,stop):
 #cette fonction nous permet d'envoyer un signal d'arret au programme principal quand le score a convergé
@@ -79,15 +78,16 @@ def amelioration_Q(s, a, discount,  max_val) :
     Q[s][a] = R[s][a] + discount*max_val
 
 def amelioration_R(s, a, r):
-    R[s][a] = (R[s][a] + r)/2
+    R[s][a] += r
+    R[s][a] /= 2
     
 
 def run():
     global discount,cpteur,listescores
     time.sleep(1)
     t = 1
-    k = 50
-    while not signal_arret(listescores,1000):
+    k = 10
+    while not signal_arret(listescores,10):
         # Choix de l'action menant à la meilleure récompense
         s = World.player
         max_act, max_val = max_Q(s)
@@ -95,16 +95,16 @@ def run():
 
         # Modification des matrices R et Q
         max_act, max_val = max_Q(s2)
-	amelioration_R(s, a, r)
-	amelioration_Q(s, a, discount, max_val)
+        amelioration_R(s, a, r)
+        amelioration_Q(s, a, discount, max_val)
 	
-	for i in range(k) :
-	    s = (random.randint(0,x-1),random.randint(0,y-1))
-	    if s not in walls :
-		a = random.randint(0,3)
-		max_act, max_val = max_Q(s)
-		amelioration_R(s, a, r)
-	        amelioration_Q(s, a, discount, max_val)
+        for i in range(k) :
+            s = (random.randint(0,World.x-1),random.randint(0,World.y-1))
+            if s not in World.walls :
+                a = random.randint(0,3)
+                max_act, max_val = max_Q(s)
+                amelioration_R(s, actions[a], r)
+                amelioration_Q(s, actions[a], discount, max_val)
 	    
 
         # vérification si le jeu a recommencé
@@ -119,6 +119,7 @@ def run():
         time.sleep(1/vit)
 
 init_mat()
+
 t = threading.Thread(target=run)
 t.daemon = True
 t.start()
