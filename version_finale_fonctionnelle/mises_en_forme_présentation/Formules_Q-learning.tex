@@ -1,0 +1,25 @@
+\documentclass{article}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+
+\begin{document}
+\begin{math}
+\mathcal{A} = \{ haut , bas , gauche, droite \}\\
+\end{math}
+\begin{align*}
+\mathnormal{Q} \colon ( \mathbb{R}^{2} \times \mathcal{A} ) &\to \mathbb{R}\\
+((x,y),a) &\mapsto \mathnormal{Q}((x,y),a)\\ 
+\end{align*}
+\begin{align*} 
+\delta \colon ( \mathbb{R}^{2} \times \mathcal{A} ) &\to \mathbb{R}^{2}\\
+((x,y),a) &\mapsto (x',y')\\ 
+\end{align*}
+\[ \begin{cases} 
+      s_{k}= & (x,y)\\
+      s_{k+1}= & \delta ((x,y),a \in \mathcal{A})
+   \end{cases}
+\]
+\begin{math}
+score_{k+1}=score_{k}+r \Leftrightarrow score_{k+1}-score_{k}=r
+\end{math}
+\end{document}

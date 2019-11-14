@@ -1,0 +1,18 @@
+algorithme
+
+tant que les 100 derniers élements de la liste des scores sont différents :
+	
+	1- l'état s prend la valeur "coordonnées de l'agent"
+	2- vérifier si l'état s est connu 
+		si non l'ajouter à Q
+	3- déterminer l'action qui maximise Q pour s donné
+	4- effectuer cette action et lire la variation de score qu'elle engendre
+	5- vérifier si le nouvel état est connu 
+		si non l'ajouter à Q
+	6- Actualiser la valeur de Q[s][a] selon la formule
+	7- Si abs(score)> 10000 ou si le joueur est sur une case terminale:
+		Réintialiser la grille:
+			-Replacer l'agent sur la case initiale
+			-Ajouter score à la liste des scores
+			-Mettre le score à 0
+	
